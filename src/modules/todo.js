@@ -16,6 +16,15 @@ const toDoStatus = Object.freeze({
 });
 
 class ToDo {
+  #title;
+  #dueDate;
+  #priority;
+  #status;
+
+  id;
+  description;
+  notes;
+
   constructor(id, title, description, dueDate, priority, notes) {
     this.id = id;
     this.title = title;
@@ -30,6 +39,7 @@ class ToDo {
     if (title.length < 1) {
       throw new Error("Title cannot be empty");
     }
+    this.#title = title;
   }
 
   set dueDate(dueDate) {
@@ -40,18 +50,37 @@ class ToDo {
     ) {
       throw new Error("Due date cannot be empty or in the past");
     }
+    this.#dueDate = dueDate;
   }
 
   set priority(priority) {
     if (priority < priorityLevel.LOW || priority > priorityLevel.CRITICAL) {
       throw new Error("Priority must be between 1 and 5");
     }
+    this.#priority = priority;
   }
 
   set status(status) {
     if (status < toDoStatus.TODO || status > toDoStatus.COMPLETED) {
       throw new Error("Status must be between 1 and 4");
     }
+    this.#status = status;
+  }
+
+  get title() {
+    return this.#title;
+  }
+
+  get dueDate() {
+    return this.#dueDate;
+  }
+
+  get priority() {
+    return this.#priority;
+  }
+
+  get status() {
+    return this.#status;
   }
 }
 

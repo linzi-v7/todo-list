@@ -1,7 +1,14 @@
 import { ToDo } from "./todo.js";
 class Project {
   currentTodoID = 0;
-  constructor(title, description) {
+
+  #title;
+
+  id;
+  description;
+  todoList;
+  constructor(id, title, description) {
+    this.id = id;
     this.title = title;
     this.description = description;
     this.todoList = [];
@@ -11,6 +18,11 @@ class Project {
     if (title.length < 1) {
       throw new Error("Title cannot be empty");
     }
+    this.#title = title;
+  }
+
+  get title() {
+    return this.#title;
   }
 
   addTodo(title, description, dueDate, priority, notes) {
