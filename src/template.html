@@ -3,9 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tudoo | Your #1 To-Do App</title>
 </head>
 <body>
-    
+
+    <!-- welcome screen for first time users, inactive for existing users -->
+    <div class="welcome-screen">
+        <img src="./assets/logo-square.png" alt="tudoo site logo" class="site-logo" width="20%">
+        <h1 class="welcome-title">Welcome to Tudoo</h1>
+        <p class="welcome-subtitle">Organize your life, one task at a time</p>
+        <button class="add-project-button">Add Your First Project!</button>
+    </div>
+
+    <!-- main site for existing users, contains project sidebar and project content -->
+    <div class="main-site"> 
+        <div class="project-sidebar inactive">
+            <img src="./assets/logo-rectangle.png" alt="tudoo site logo" class="site-logo" width="10%">
+            <button class="add-project-button">Create Project</button>
+            <p>Your Projects</p>
+            <ul class="project-list">
+                <!-- dynamically add projects here -->
+            </ul>
+        </div>
+    </div>
+
 </body>
 </html>
