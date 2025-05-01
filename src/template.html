@@ -8,7 +8,7 @@
 <body>
 
     <!-- welcome screen for first time users, inactive for existing users -->
-    <div class="welcome-screen">
+    <div class="welcome-screen inactive">
         <img src="./assets/logo-square.png" alt="tudoo site logo" class="site-logo" width="20%">
         <h1 class="welcome-title">Welcome to Tudoo</h1>
         <p class="welcome-subtitle">Organize your life, one task at a time</p>
@@ -17,12 +17,16 @@
 
     <!-- main site for existing users, contains project sidebar and project content -->
     <div class="main-site"> 
-        <div class="project-sidebar inactive">
-            <img src="./assets/logo-rectangle.png" alt="tudoo site logo" class="site-logo" width="10%">
+        <div class="project-sidebar">
+            <img src="./assets/logo-rectangle.png" alt="tudoo site logo" class="site-logo">
             <button class="add-project-button">Create Project</button>
             <p>Your Projects</p>
             <ul class="project-list">
                 <!-- dynamically add projects here -->
+                 <li>Project 1</li>
+                 <li>Project 2</li>
+                 <li>Project 3</li>
+                 
             </ul>
         </div>
     </div>
