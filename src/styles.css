@@ -8,13 +8,22 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+:root {
+    --welcome-screen-color: #dfdfdf;
+    --sidebar-color: #f5f5f5;
+    --silver-hover: #e3e3e3;
+    --add-project-button-color: #3498db;
+    --add-project-button-hover: #2980b9;
+    --faded-text-color: #00000051;
+}
+
 .welcome-screen {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: #dfdfdf;
+    background-color: var(--welcome-screen-color);
     text-align: center;
 }
 
@@ -25,12 +34,12 @@ body {
 
 .welcome-subtitle {
     font-size: 1.25rem;
-    color: #0000004c;
+    color: var(--faded-text-color);
     margin-bottom: 2rem;
 }
 
 .add-project-button {
-    background-color: #3498db;
+    background-color: var(--add-project-button-color);
     color: white;
     border: none;
     padding: 1rem 2rem;
@@ -43,18 +52,18 @@ body {
 }
 
 .add-project-button:hover {
-    background-color: #2980b9;
+    background-color: var(--add-project-button-hover);
     box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
 }
 
 .main-site {
     display: grid;
-    grid-template-columns: 0.9fr 4fr;
+    grid-template-columns: 0.8fr 4fr;
     height: 100vh;
 }
 
 .project-sidebar {
-    background-color: #f5f5f5;
+    background-color: var(--sidebar-color);
     display: flex;
     flex-direction: column;
     padding: 0.5rem 1rem;
@@ -69,14 +78,14 @@ body {
 
 
 .project-sidebar .add-project-button {
-    width: 60%;
+    width: 70%;
     border-radius: 1rem;
     padding: 1rem 0rem;
     margin-bottom: 2rem;
 }
 
 .project-sidebar>p {
-    color: #616161;
+    color: var(--faded-text-color);
     font-weight: 600;
     margin-bottom: 0.4rem;
     text-transform: uppercase;
@@ -98,7 +107,7 @@ body {
 }
 
 .project-list li:hover {
-    background-color: #e3e3e3;
+    background-color: var(--silver-hover);
 }
 
 .inactive {
