@@ -11,8 +11,9 @@ const priorityLevel = Object.freeze({
 const toDoStatus = Object.freeze({
   TODO: 1,
   IN_PROGRESS: 2,
-  HIATUS: 3,
-  COMPLETED: 4,
+  IN_REVIEW: 3,
+  ON_HOLD: 4,
+  COMPLETED: 5,
 });
 
 class ToDo {
@@ -20,6 +21,7 @@ class ToDo {
   #dueDate;
   #priority;
   #status;
+  #creationDate;
 
   id;
   description;
@@ -65,6 +67,10 @@ class ToDo {
       throw new Error("Status must be between 1 and 4");
     }
     this.#status = status;
+  }
+
+  get creationDate() {
+    return this.#creationDate;
   }
 
   get title() {

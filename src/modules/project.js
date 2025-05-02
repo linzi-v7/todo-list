@@ -63,7 +63,11 @@ class Project {
           "\n Priority:" +
           todo.priority +
           "\n Notes:" +
-          todo.notes
+          todo.notes +
+          "\n Status:" +
+          todo.status +
+          "\n Creation Date:" +
+          todo.creationDate
       );
     });
   }
