@@ -4,17 +4,30 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
 :root {
     --welcome-screen-color: #dfdfdf;
     --sidebar-color: #f5f5f5;
-    --silver-hover: #e3e3e3;
-    --add-project-button-color: #3498db;
-    --add-project-button-hover: #2980b9;
+    --silver-hover: #e7e7e7;
+    --add-button-color: #3498db;
+    --add-button-hover: #2980b9;
     --faded-text-color: #00000051;
+}
+
+/* show grid lines */
+.main-site>*,
+.project-info>* {
+    /* border: 1px solid red; */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fdfdfd;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
 }
 
 .welcome-screen {
@@ -38,8 +51,9 @@ body {
     margin-bottom: 2rem;
 }
 
-.add-project-button {
-    background-color: var(--add-project-button-color);
+.add-project-button,
+.add-todo-button {
+    background-color: var(--add-button-color);
     color: white;
     border: none;
     padding: 1rem 2rem;
@@ -51,8 +65,9 @@ body {
     box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
 }
 
-.add-project-button:hover {
-    background-color: var(--add-project-button-hover);
+.add-project-button:hover,
+.add-todo-button:hover {
+    background-color: var(--add-button-hover);
     box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
 }
 
@@ -108,6 +123,53 @@ body {
 
 .project-list li:hover {
     background-color: var(--silver-hover);
+}
+
+
+.project-info {
+    margin: 1rem;
+    display: grid;
+    grid-template-rows: 1fr 1fr 4fr;
+}
+
+
+
+.project-header {
+    margin: 0.5rem 1rem;
+}
+
+.project-header .project-title {
+    font-size: 4rem;
+}
+
+.description-toggle {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+}
+
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.filter-btn {
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 1rem 2.5rem;
+    border-radius: 1rem;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background-color: var(--silver-hover);
+}
+
+
+
+.add-todo-button {
+    margin-bottom: 1rem;
 }
 
 .inactive {
