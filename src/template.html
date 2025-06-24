@@ -1,43 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tudoo | Your #1 To-Do App</title>
 </head>
-<body>
 
+<body>
     <!-- welcome screen for first time users, inactive for existing users -->
     <div class="welcome-screen inactive">
-        <img src="./assets/logo-square.png" alt="tudoo site logo" class="site-logo" width="20%">
+        <img src="./assets/logo-square.png" alt="tudoo site logo" class="site-logo" width="20%" />
         <h1 class="welcome-title">Welcome to Tudoo</h1>
         <p class="welcome-subtitle">Organize your life, one task at a time</p>
         <button class="add-project-button">Add Your First Project!</button>
     </div>
 
     <!-- main site for existing users, contains project sidebar and project content -->
-    <div class="main-site"> 
+    <div class="main-site">
         <div class="project-sidebar">
-            <img src="./assets/logo-rectangle.png" alt="tudoo site logo" class="site-logo">
+            <img src="./assets/logo-rectangle.png" alt="tudoo site logo" class="site-logo" />
             <button class="add-project-button">+ New Project</button>
             <p>Your Projects</p>
             <ul class="project-list">
                 <!-- dynamically add projects here -->
-                 <li>Project 1</li>
-                 <li>Project 2</li>
-                 <li>Project 3</li>
+                <li>Project 1</li>
+                <li>Project 2</li>
+                <li>Project 3</li>
             </ul>
         </div>
 
         <div class="project-info">
-
             <div class="project-header">
-            <h1 class="project-title">Project Title</h1>
-            <div class="description-container">
-                <button class="description-toggle">▼ Show Description</button>
-                <div class="project-description inactive">Project Description</div>
-            </div>
-
+                <h1 class="project-title">Project Title</h1>
+                <div class="description-container">
+                    <button class="description-toggle">▼ Show Description</button>
+                    <div class="project-description inactive">Project Description</div>
+                </div>
             </div>
 
             <div class="project-controls">
@@ -46,32 +45,86 @@
                 <div class="filter-buttons">
                     <button class="filter-btn active" data-filter="all">ALL</button>
                     <button class="filter-btn" data-filter="todo">TODO</button>
-                    <button class="filter-btn" data-filter="in-progress">IN PROGRESS</button>
-                    <button class="filter-btn" data-filter="in-review">IN REVIEW</button>
+                    <button class="filter-btn" data-filter="in-progress">
+                        IN PROGRESS
+                    </button>
+                    <button class="filter-btn" data-filter="in-review">
+                        IN REVIEW
+                    </button>
                     <button class="filter-btn" data-filter="on-hold">ON HOLD</button>
-                    <button class="filter-btn" data-filter="completed">COMPLETED</button>
+                    <button class="filter-btn" data-filter="completed">
+                        COMPLETED
+                    </button>
                 </div>
             </div>
 
             <ul class="todo-list">
                 <!-- dynamically add todos here -->
-                <li class="todo-item" data-status="todo">
+                <li class="todo-item shadow" data-status="todo">
+                    <div class="priority-indicator low-priority"></div>
+
                     <div class="todo-main">
-                        <span class="todo-title">Todo Title</span>
-                        <span class="todo-duedate">Due Date</span>
+                        <div class="todo-header">
+                            <span class="todo-title">Todo Title</span>
+                            <span class="todo-status">Status</span>
+                            <span class="todo-duedate">Due Date</span>
+                        </div>
 
                         <div class="todo-controls">
                             <button class="todo-info-button">ℹ️</button>
                             <button class="todo-edit-button">✏️</button>
                             <button class="todo-delete-button">🗑️</button>
                         </div>
-                        <!-- still need to add way to see todo info, possibly modal
-                         check MDN Documentation before adding it -->
                     </div>
+
+                    <div class="todo-checkbox-container">
+                        <input type="checkbox" class="todo-checkbox" id="todo-checkbox-1" />
+                    </div>
+                    <dialog class="todo-modal inactive">
+                        <div class="todo-modal-content">
+                            <span class="todo-modal-close">&times;</span>
+                            <h2 class="todo-modal-title">Todo Title</h2>
+
+                            <p>
+                                <strong>Description:</strong>
+                                <span class="todo-modal-description">Description here</span>
+                            </p>
+
+                            <p>
+                                <strong>Due Date:</strong>
+                                <span class="todo-modal-duedate">Due Date here</span>
+                            </p>
+
+                            <p>
+                                <strong>Priority:</strong>
+                                <span class="todo-modal-priority">Priority here</span>
+                            </p>
+
+                            <p>
+                                <strong>Status:</strong>
+                                <span class="todo-modal-status">Status here</span>
+                            </p>
+
+                            <p>
+                                <strong>Notes:</strong>
+                                <span class="todo-modal-notes">Notes here</span>
+                            </p>
+
+                            <p>
+                                <strong>Created:</strong>
+                                <span class="todo-modal-creationdate">Creation Date here</span>
+                            </p>
+                            <p>
+                                <strong>Last Updated:</strong>
+                                <span class="todo-modal-lastupdated">Last Updated here</span>
+                            </p>
+                        </div>
+                    </dialog>
+
                 </li>
             </ul>
         </div>
     </div>
-
 </body>
+
 </html>
