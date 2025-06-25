@@ -71,53 +71,32 @@
                         </div>
 
                         <div class="todo-controls">
-                            <button class="todo-info-button">ℹ️</button>
-                            <button class="todo-edit-button">✏️</button>
-                            <button class="todo-delete-button">🗑️</button>
+                            <button class="todo-info-button" title="View Todo Details">ℹ️</button>
+                            <button class="todo-edit-button" title="Edit Todo">✏️</button>
+                            <button class="todo-delete-button" title="Delete Todo">🗑️</button>
                         </div>
                     </div>
 
                     <div class="todo-checkbox-container">
-                        <input type="checkbox" class="todo-checkbox" id="todo-checkbox-1" />
+                        <input type="checkbox" class="todo-checkbox" id="todo-checkbox-1" title="Mark as Completed" />
                     </div>
-                    <dialog class="todo-modal inactive">
+                    <dialog class="todo-modal">
                         <div class="todo-modal-content">
                             <span class="todo-modal-close">&times;</span>
                             <h2 class="todo-modal-title">Todo Title</h2>
 
-                            <p>
-                                <strong>Description:</strong>
-                                <span class="todo-modal-description">Description here</span>
-                            </p>
+                            <form class="todo-modal-form">
+                                <!-- Add content here based on the chosen button -->
+                                <div class="form-content">
 
-                            <p>
-                                <strong>Due Date:</strong>
-                                <span class="todo-modal-duedate">Due Date here</span>
-                            </p>
+                                </div>
 
-                            <p>
-                                <strong>Priority:</strong>
-                                <span class="todo-modal-priority">Priority here</span>
-                            </p>
+                                <div class="form-actions">
+                                    <button type="button" class="cancel-button">Cancel</button>
+                                    <button type="submit" class="confirm-button">Confirm</button>
+                                </div>
+                            </form>
 
-                            <p>
-                                <strong>Status:</strong>
-                                <span class="todo-modal-status">Status here</span>
-                            </p>
-
-                            <p>
-                                <strong>Notes:</strong>
-                                <span class="todo-modal-notes">Notes here</span>
-                            </p>
-
-                            <p>
-                                <strong>Created:</strong>
-                                <span class="todo-modal-creationdate">Creation Date here</span>
-                            </p>
-                            <p>
-                                <strong>Last Updated:</strong>
-                                <span class="todo-modal-lastupdated">Last Updated here</span>
-                            </p>
                         </div>
                     </dialog>
 
