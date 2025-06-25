@@ -359,7 +359,7 @@ button {
   color: #666;
 }
 
-.todo-form {
+.todo-modal-form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -428,6 +428,30 @@ button {
 
 .confirm-button:hover {
   background: #3e8e41;
+}
+
+/* Project-specific styles */
+.project-form .form-group input {
+  font-size: 1.1rem;
+  padding: 0.8rem;
+}
+
+.project-info .info-group {
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  background: #f8f8f8;
+  border-radius: 0.5rem;
+}
+
+.project-info .info-label {
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.project-info .info-value {
+  color: #555;
 }
 
 /* Delete confirmation specific styles */
