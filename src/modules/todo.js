@@ -26,15 +26,27 @@ class ToDo {
   id;
   description;
   notes;
+  projectID;
 
-  constructor(id, title, description, dueDate, priority, notes) {
+  constructor(
+    id,
+    title,
+    description,
+    dueDate,
+    priority,
+    notes,
+    status,
+    projectID
+  ) {
     this.id = id;
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
     this.notes = notes;
-    this.status = toDoStatus.TODO;
+    this.status = status || toDoStatus.TODO;
+    this.projectID = projectID;
+    this.#creationDate = new Date();
   }
 
   set title(title) {

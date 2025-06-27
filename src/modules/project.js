@@ -25,10 +25,22 @@ class Project {
     return this.#title;
   }
 
+  get numOfTodos() {
+    return this.todoList.length;
+  }
+
   addTodo(title, description, dueDate, priority, notes) {
     this.currentTodoID++;
     this.todoList.push(
-      new ToDo(this.currentTodoID, title, description, dueDate, priority, notes)
+      new ToDo(
+        this.currentTodoID,
+        title,
+        description,
+        dueDate,
+        priority,
+        notes,
+        this.id
+      )
     );
   }
 
@@ -49,11 +61,17 @@ class Project {
     });
   }
 
+  getTodoByID(id) {
+    return this.todoList.find((todo) => todo.id === id);
+  }
+
   listTodos() {
     this.todoList.forEach((todo) => {
       console.log(
         "\n ID:" +
           todo.id +
+          "\n Project ID:" +
+          todo.projectID +
           "\n Title:" +
           todo.title +
           "\n Description:" +

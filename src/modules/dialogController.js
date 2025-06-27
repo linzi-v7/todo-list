@@ -1,4 +1,7 @@
 //module to manage the dialog functionality in the application
+//to create subwindows for adding, editing, viewing, and deleting todos and projects
+
+import { ProjectController } from "./projectController.js";
 
 //DOM dialog elements
 const elements = Object.freeze({
@@ -7,6 +10,7 @@ const elements = Object.freeze({
   form: document.querySelector(".todo-modal-form"),
   content: document.querySelector(".form-content"),
   closeBtn: document.querySelector(".todo-modal-close"),
+  cancelBtn: document.querySelector(".todo-modal .cancel-button"),
 });
 
 // templates used to populate the dialog content dynamically
@@ -17,21 +21,42 @@ const templates = {
         <label for="title">Title</label>
         <input type="text" id="title" name="title" required>
       </div>
+
       <div class="form-group">
         <label for="description">Description</label>
         <textarea id="description" name="description"></textarea>
       </div>
+
       <div class="form-group">
         <label for="dueDate">Due Date</label>
         <input type="date" id="dueDate" name="dueDate">
       </div>
+
       <div class="form-group">
         <label for="priority">Priority</label>
         <select id="priority" name="priority">
           <option value="low">Low</option>
           <option value="medium">Medium</option>
           <option value="high">High</option>
+          <option value="urgent">Urgent</option>
+          <option value="critical">Critical</option>
         </select>
+      </div>
+
+      <div class="form-group">
+        <label for="notes">Notes</label>
+        <textarea id="notes" name="notes"></textarea>
+      </div>
+
+      <div class="form-group">
+      <label for="status">Status</label>
+      <select id="status" name="status">
+        <option value="todo">Todo</option>
+        <option value="in-progress">In Progress</option>
+        <option value="in-review">In Review</option>
+        <option value="on-hold">On Hold</option>
+        <option value="completed">Completed</option>
+      </select>
       </div>
     `;
   },
@@ -42,17 +67,30 @@ const templates = {
         <strong>Title:</strong>
         <p class="view-field" data-field="title"></p>
       </div>
+
       <div class="form-group">
         <strong>Description:</strong>
         <p class="view-field" data-field="description"></p>
       </div>
+
       <div class="form-group">
         <strong>Due Date:</strong>
         <p class="view-field" data-field="dueDate"></p>
       </div>
+
       <div class="form-group">
         <strong>Priority:</strong>
         <p class="view-field" data-field="priority"></p>
+      </div>
+
+      <div class="form-group">
+        <strong>Notes:</strong>
+        <p class="view-field" data-field="notes"></p>
+      </div>
+
+      <div class="form-group">
+        <strong>Status:</strong>
+        <p class="view-field" data-field="status"></p>
       </div>
     `;
   },
@@ -60,16 +98,13 @@ const templates = {
   createProjectFormTemplate() {
     return `
       <div class="form-group project-form">
-        <label for="projectName">Project Name</label>
-        <input type="text" id="projectName" name="name" required>
+        <label for="projectTitle">Project Title</label>
+        <input type="text" id="projectTitle" name="title" required>
       </div>
+
       <div class="form-group">
         <label for="projectDescription">Description</label>
         <textarea id="projectDescription" name="description"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="projectColor">Color</label>
-        <input type="color" id="projectColor" name="color" value="#4CAF50">
       </div>
     `;
   },
@@ -77,21 +112,24 @@ const templates = {
   createProjectInfoTemplate() {
     return `
       <div class="project-info">
+
         <div class="info-group">
-          <span class="info-label">Project Name:</span>
-          <span class="info-value" data-field="name"></span>
+          <span class="info-label">Project Title:</span>
+          <span class="info-value" data-field="title"></span>
         </div>
+
         <div class="info-group">
           <span class="info-label">Description:</span>
           <span class="info-value" data-field="description"></span>
         </div>
+
         <div class="info-group">
-          <span class="info-label">Created:</span>
+          <span class="info-label">Creation Date:</span>
           <span class="info-value" data-field="created"></span>
         </div>
         <div class="info-group">
-          <span class="info-label">Tasks:</span>
-          <span class="info-value" data-field="taskCount"></span>
+          <span class="info-label">Task Count:</span>
+          <span class="info-value" data-field="numOfTodos"></span>
         </div>
       </div>
     `;
@@ -107,7 +145,7 @@ const templates = {
   },
 };
 
-class dialogController {
+class DialogController {
   constructor() {
     this.elements = elements;
     this.templates = {
@@ -136,14 +174,48 @@ class dialogController {
     };
   }
 
-  openDialog(type, data = null) {
+  init() {
+    this.elements.closeBtn.addEventListener("click", () => this.closeDialog());
+
+    this.elements.cancelBtn.addEventListener("click", () =>
+      this.elements.dialog.requestClose()
+    );
+
+    this.elements.dialog.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      this.closeDialog();
+    });
+
+    this.elements.dialog.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const action = this.elements.form.dataset.action;
+      console.log(`Form submitted for action: ${action}`);
+      // Handle form submission logic here
+      this.closeDialog();
+    });
+  }
+
+  openDialog(type, projectID = null, todoID = null) {
+    console.log(`Opening dialog of type: ${type}`);
+
+    this.init();
+
     this.elements.title.textContent = this.titleMap[type] || "Dialog";
     this.elements.content.innerHTML = this.templates[type];
     this.elements.form.dataset.action = type;
 
-    if (data) {
-      this.populateFormData(data);
+    let projectObject = null;
+    let todoObject = null;
+
+    if (projectID) {
+      projectObject = ProjectController.getProjectByID(projectID);
     }
+
+    if (todoID && projectID) {
+      todoObject = projectObject.getTodoByID(todoID);
+    }
+
+    this.populateFormData({ project: projectObject, todo: todoObject });
 
     this.elements.dialog.showModal();
   }
@@ -169,4 +241,4 @@ class dialogController {
   }
 }
 
-export { dialogController };
+export { DialogController };

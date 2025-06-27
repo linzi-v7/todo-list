@@ -308,8 +308,8 @@ button {
   outline: none;
   cursor: pointer;
   transition:
-    border-color 0.3s ease,
-    background-color 0.3s ease;
+    border-color 0.7s ease,
+    background-color 0.7s ease;
 
   margin-top: 0.3rem;
 }
@@ -336,6 +336,7 @@ button {
   padding: 0;
   width: min(90%, 500px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  place-self: center;
 }
 
 .todo-modal::backdrop {

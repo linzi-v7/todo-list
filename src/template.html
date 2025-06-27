@@ -81,29 +81,29 @@
                         <input type="checkbox" class="todo-checkbox" id="todo-checkbox-1" title="Mark as Completed" />
                     </div>
 
-                    <dialog class="todo-modal">
-                        <div class="todo-modal-content">
-                            <span class="todo-modal-close">&times;</span>
-                            <h2 class="todo-modal-title">Todo Title</h2>
-
-                            <form class="todo-modal-form">
-                                <!-- Add content here based on the chosen button -->
-                                <div class="form-content">
-
-                                </div>
-
-                                <div class="form-actions">
-                                    <button type="button" class="cancel-button">Cancel</button>
-                                    <button type="submit" class="confirm-button">Confirm</button>
-                                </div>
-                            </form>
-
-                        </div>
-                    </dialog>
-
                 </li>
             </ul>
         </div>
+
+        <dialog class="todo-modal">
+            <div class="todo-modal-content">
+                <span class="todo-modal-close">&times;</span>
+                <h2 class="todo-modal-title">Todo Title</h2>
+
+                <form method="dialog" class="todo-modal-form">
+                    <!-- Add content here based on the chosen button -->
+                    <div class="form-content">
+
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="cancel-button">Cancel</button>
+                        <button type="submit" class="confirm-button">Confirm</button>
+                    </div>
+                </form>
+
+            </div>
+        </dialog>
     </div>
 </body>
 

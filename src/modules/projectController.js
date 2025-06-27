@@ -10,9 +10,13 @@ class ProjectController {
 
   static addProject(title, description) {
     ProjectController.currentProjectID++;
-    ProjectController.projectList.push(
-      new Project(this.currentProjectID, title, description)
+    const newProject = new Project(
+      ProjectController.currentProjectID,
+      title,
+      description
     );
+    ProjectController.projectList.push(newProject);
+    return newProject;
   }
 
   static removeProject(id) {
@@ -33,7 +37,7 @@ class ProjectController {
     );
   }
 
-  static getProject(id) {
+  static getProjectByID(id) {
     return ProjectController.projectList.find((project) => project.id === id);
   }
 
