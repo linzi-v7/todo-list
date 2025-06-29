@@ -6,11 +6,13 @@ class Project {
 
   id;
   description;
+  creationDate;
   todoList;
   constructor(id, title, description) {
     this.id = id;
     this.title = title;
     this.description = description;
+    this.creationDate = new Date();
     this.todoList = [];
   }
 
@@ -29,7 +31,7 @@ class Project {
     return this.todoList.length;
   }
 
-  addTodo(title, description, dueDate, priority, notes) {
+  addTodo(title, description, dueDate, priority, notes, status = "TODO") {
     this.currentTodoID++;
     this.todoList.push(
       new ToDo(
@@ -39,6 +41,7 @@ class Project {
         dueDate,
         priority,
         notes,
+        status,
         this.id
       )
     );

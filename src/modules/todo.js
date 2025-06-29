@@ -1,20 +1,4 @@
-// Enum for priority level of todo
-const priorityLevel = Object.freeze({
-  LOW: 1,
-  MEDIUM: 2,
-  HIGH: 3,
-  URGENT: 4,
-  CRITICAL: 5,
-});
-
-// Enum for status of todo
-const toDoStatus = Object.freeze({
-  TODO: 1,
-  IN_PROGRESS: 2,
-  IN_REVIEW: 3,
-  ON_HOLD: 4,
-  COMPLETED: 5,
-});
+import { priorityLevel, toDoStatus } from "./enums.js";
 
 class ToDo {
   #title;

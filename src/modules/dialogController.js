@@ -1,9 +1,9 @@
 //module to manage the dialog functionality in the application
-//to create subwindows for adding, editing, viewing, and deleting todos and projects
-
+//like creating subwindows for adding, editing, viewing, and deleting todos and projects
 import { ProjectController } from "./projectController.js";
+import { DialogActionType } from "./enums.js";
 
-//DOM dialog elements
+//DOM dialog elements enum
 const elements = Object.freeze({
   dialog: document.querySelector(".todo-modal"),
   title: document.querySelector(".todo-modal-title"),
@@ -75,7 +75,7 @@ const templates = {
 
       <div class="form-group">
         <strong>Due Date:</strong>
-        <p class="view-field" data-field="dueDate"></p>
+        <p class="view-field" data-field="dueDate" data-type="date"></p>
       </div>
 
       <div class="form-group">
@@ -115,21 +115,21 @@ const templates = {
 
         <div class="info-group">
           <span class="info-label">Project Title:</span>
-          <span class="info-value" data-field="title"></span>
+          <span class="view-field" data-field="title"></span>
         </div>
 
         <div class="info-group">
           <span class="info-label">Description:</span>
-          <span class="info-value" data-field="description"></span>
+          <span class="view-field" data-field="description"></span>
         </div>
 
         <div class="info-group">
           <span class="info-label">Creation Date:</span>
-          <span class="info-value" data-field="created"></span>
+          <span class="view-field" data-field="createdOn" data-type="date"></span>
         </div>
         <div class="info-group">
           <span class="info-label">Task Count:</span>
-          <span class="info-value" data-field="numOfTodos"></span>
+          <span class="view-field" data-field="numOfTodos"></span>
         </div>
       </div>
     `;
@@ -145,33 +145,34 @@ const templates = {
   },
 };
 
+// Map to associate dialog action types with titles
+const titleMap = Object.freeze({
+  [DialogActionType.ADD_TODO]: "Add New Todo",
+  [DialogActionType.EDIT_TODO]: "Edit Todo",
+  [DialogActionType.VIEW_TODO]: "Todo Details",
+  [DialogActionType.DELETE_TODO]: "Delete Todo",
+  [DialogActionType.ADD_PROJECT]: "Add New Project",
+  [DialogActionType.EDIT_PROJECT]: "Edit Project",
+  [DialogActionType.VIEW_PROJECT]: "Project Information",
+  [DialogActionType.DELETE_PROJECT]: "Delete Project",
+});
+
+const templateMap = Object.freeze({
+  [DialogActionType.ADD_TODO]: templates.createTodoFormTemplate(),
+  [DialogActionType.EDIT_TODO]: templates.createTodoFormTemplate(),
+  [DialogActionType.VIEW_TODO]: templates.createTodoViewTemplate(),
+  [DialogActionType.DELETE_TODO]: templates.createDeleteTemplate("todo"),
+
+  //Project templates
+  [DialogActionType.ADD_PROJECT]: templates.createProjectFormTemplate(),
+  [DialogActionType.EDIT_PROJECT]: templates.createProjectFormTemplate(),
+  [DialogActionType.VIEW_PROJECT]: templates.createProjectInfoTemplate(),
+  [DialogActionType.DELETE_PROJECT]: templates.createDeleteTemplate("project"),
+});
+
 class DialogController {
   constructor() {
     this.elements = elements;
-    this.templates = {
-      //Todo templates
-      addTodo: templates.createTodoFormTemplate(),
-      editTodo: templates.createTodoFormTemplate(),
-      viewTodo: templates.createTodoViewTemplate(),
-      deleteTodo: templates.createDeleteTemplate("todo"),
-
-      //Project templates
-      addProject: templates.createProjectFormTemplate(),
-      editProject: templates.createProjectFormTemplate(),
-      viewProject: templates.createProjectInfoTemplate(),
-      deleteProject: templates.createDeleteTemplate("project"),
-    };
-
-    this.titleMap = {
-      addTodo: "Add New Todo",
-      editTodo: "Edit Todo",
-      viewTodo: "Todo Details",
-      deleteTodo: "Delete Todo",
-      addProject: "Add New Project",
-      editProject: "Edit Project",
-      viewProject: "Project Information",
-      deleteProject: "Delete Project",
-    };
   }
 
   init() {
@@ -200,8 +201,8 @@ class DialogController {
 
     this.init();
 
-    this.elements.title.textContent = this.titleMap[type] || "Dialog";
-    this.elements.content.innerHTML = this.templates[type];
+    this.elements.title.textContent = titleMap[type] || "Dialog";
+    this.elements.content.innerHTML = templateMap[type];
     this.elements.form.dataset.action = type;
 
     let projectObject = null;
@@ -209,13 +210,15 @@ class DialogController {
 
     if (projectID) {
       projectObject = ProjectController.getProjectByID(projectID);
+      this.elements.form.dataset.projectId = projectID || "";
     }
 
     if (todoID && projectID) {
       todoObject = projectObject.getTodoByID(todoID);
+      this.elements.form.dataset.todoId = todoID || "";
     }
 
-    this.populateFormData({ project: projectObject, todo: todoObject });
+    this.populateFormData(projectObject, todoObject);
 
     this.elements.dialog.showModal();
   }
@@ -226,16 +229,50 @@ class DialogController {
     this.elements.form.reset();
   }
 
-  populateFormData(data) {
-    const fields = this.elements.content.querySelectorAll("[data-field]");
+  populateFormData(project, todo) {
+    const action = this.elements.form.dataset.action;
+    if (action === "editTodo" || action === "editProject") {
+      this.populateEditForm({ project, todo });
+    } else if (action === "viewTodo" || action === "viewProject") {
+      this.populateViewForm({ project, todo });
+    }
+  }
+
+  populateEditForm({ project = null, todo = null }) {
+    const fields = this.elements.form.querySelectorAll(
+      "input[name], textarea[name], select[name]"
+    );
     fields.forEach((field) => {
+      const fieldName = field.name;
+
+      field.value = todo
+        ? todo[fieldName] || ""
+        : project
+          ? project[fieldName] || ""
+          : "";
+
+      if (field.type === "date" && todo && todo[fieldName]) {
+        field.value = todo[fieldName].toISOString().split("T")[0];
+      }
+    });
+  }
+
+  populateViewForm({ project = null, todo = null }) {
+    const viewFields = this.elements.content.querySelectorAll(".view-field");
+    viewFields.forEach((field) => {
       const fieldName = field.dataset.field;
-      if (data[fieldName] !== undefined) {
-        if (field.tagName === "INPUT" || field.tagName === "SELECT") {
-          field.value = data[fieldName];
-        } else {
-          field.textContent = data[fieldName];
-        }
+      field.textContent = todo
+        ? todo[fieldName] || ""
+        : project
+          ? project[fieldName] || ""
+          : "";
+
+      if (field.dataset.type === "date") {
+        field.textContent = todo
+          ? todo.creationDate.toLocaleDateString()
+          : project
+            ? project.creationDate.toLocaleDateString()
+            : "";
       }
     });
   }
