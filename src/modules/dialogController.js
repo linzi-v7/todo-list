@@ -175,31 +175,10 @@ class DialogController {
     this.elements = elements;
   }
 
-  init() {
-    this.elements.closeBtn.addEventListener("click", () => this.closeDialog());
-
-    this.elements.cancelBtn.addEventListener("click", () =>
-      this.elements.dialog.requestClose()
-    );
-
-    this.elements.dialog.addEventListener("cancel", (event) => {
-      event.preventDefault();
-      this.closeDialog();
-    });
-
-    this.elements.dialog.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const action = this.elements.form.dataset.action;
-      console.log(`Form submitted for action: ${action}`);
-      // Handle form submission logic here
-      this.closeDialog();
-    });
-  }
-
   openDialog(type, projectID = null, todoID = null) {
     console.log(`Opening dialog of type: ${type}`);
 
-    this.init();
+    this.#init();
 
     this.elements.title.textContent = titleMap[type] || "Dialog";
     this.elements.content.innerHTML = templateMap[type];
@@ -218,27 +197,48 @@ class DialogController {
       this.elements.form.dataset.todoId = todoID || "";
     }
 
-    this.populateFormData(projectObject, todoObject);
+    this.#populateFormData(projectObject, todoObject);
 
     this.elements.dialog.showModal();
   }
 
-  closeDialog() {
+  #init() {
+    this.elements.closeBtn.addEventListener("click", () => this.#closeDialog());
+
+    this.elements.cancelBtn.addEventListener("click", () =>
+      this.elements.dialog.requestClose()
+    );
+
+    this.elements.dialog.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      this.#closeDialog();
+    });
+
+    this.elements.dialog.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const action = this.elements.form.dataset.action;
+      console.log(`Form submitted for action: ${action}`);
+      this.#handleSubmit(action, this.elements.form);
+      this.#closeDialog();
+    });
+  }
+
+  #closeDialog() {
     this.elements.dialog.close();
     this.elements.content.innerHTML = "";
     this.elements.form.reset();
   }
 
-  populateFormData(project, todo) {
+  #populateFormData(project, todo) {
     const action = this.elements.form.dataset.action;
     if (action === "editTodo" || action === "editProject") {
-      this.populateEditForm({ project, todo });
+      this.#populateEditForm({ project, todo });
     } else if (action === "viewTodo" || action === "viewProject") {
-      this.populateViewForm({ project, todo });
+      this.#populateViewForm({ project, todo });
     }
   }
 
-  populateEditForm({ project = null, todo = null }) {
+  #populateEditForm({ project = null, todo = null }) {
     const fields = this.elements.form.querySelectorAll(
       "input[name], textarea[name], select[name]"
     );
@@ -257,7 +257,7 @@ class DialogController {
     });
   }
 
-  populateViewForm({ project = null, todo = null }) {
+  #populateViewForm({ project = null, todo = null }) {
     const viewFields = this.elements.content.querySelectorAll(".view-field");
     viewFields.forEach((field) => {
       const fieldName = field.dataset.field;
@@ -275,6 +275,69 @@ class DialogController {
             : "";
       }
     });
+  }
+
+  #handleSubmit(action, form) {
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    const projectID = form.dataset.projectId;
+    const todoID = form.dataset.todoId;
+    let project = null;
+    let todo = null;
+
+    if (projectID) project = ProjectController.getProjectByID(projectID);
+
+    if (todoID && projectID) todo = project.getTodoByID(todoID);
+
+    switch (action) {
+      case DialogActionType.ADD_TODO:
+        project.addTodo(
+          data.title,
+          data.description,
+          new Date(data.dueDate),
+          data.priority,
+          data.notes,
+          data.status
+        );
+        break;
+
+      case DialogActionType.EDIT_TODO:
+        project.updateTodo(
+          todoID,
+          data.title,
+          data.description,
+          new Date(data.dueDate),
+          data.priority,
+          data.notes,
+          data.status
+        );
+        break;
+
+      case DialogActionType.DELETE_TODO:
+        project.removeTodo(todoID);
+        break;
+
+      case DialogActionType.ADD_PROJECT:
+        ProjectController.addProject(data.title, data.description);
+        break;
+
+      case DialogActionType.EDIT_PROJECT:
+        ProjectController.updateProject(
+          projectID,
+          data.title,
+          data.description
+        );
+        break;
+
+      case DialogActionType.DELETE_PROJECT:
+        ProjectController.deleteProject(projectID);
+        break;
+
+      default:
+        console.log(`Unhandled action type: ${action}`);
+        break;
+    }
   }
 }
 

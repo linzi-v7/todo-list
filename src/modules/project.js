@@ -51,7 +51,7 @@ class Project {
     this.todoList = this.todoList.filter((todo) => todo.id !== id);
   }
 
-  updateTodo(id, title, description, dueDate, priority, notes) {
+  updateTodo(id, title, description, dueDate, priority, notes, status) {
     this.todoList = this.todoList.map((todo) => {
       if (todo.id === id) {
         todo.title = title;
@@ -59,6 +59,7 @@ class Project {
         todo.dueDate = dueDate;
         todo.priority = priority;
         todo.notes = notes;
+        todo.status = status;
       }
       return todo;
     });
