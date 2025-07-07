@@ -23,5 +23,5 @@ addProjectButtons.forEach((button) => {
   button.addEventListener("click", () => {
     console.log("Add Project button clicked");
     dialogController.openDialog("viewTodo", 1, 1);
-=  });
+  });
 });
