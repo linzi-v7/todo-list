@@ -1,7 +1,7 @@
 import "./styles.css";
 //import { Project } from "./modules/project.js";
-import { ProjectController } from "./modules/projectController.js";
-import { DialogController } from "./modules/dialogController.js";
+import { ProjectController } from "./modules/controllers/projectController.js";
+import { DialogController } from "./modules/controllers/dialogController.js";
 
 const project = ProjectController.addProject("Project 1", "Description 1");
 project.addTodo("Todo", "Description", new Date(), 2, "Notes");
@@ -22,6 +22,6 @@ const addProjectButtons = document.querySelectorAll(".add-project-button");
 addProjectButtons.forEach((button) => {
   button.addEventListener("click", () => {
     console.log("Add Project button clicked");
-    dialogController.openDialog("viewTodo", 1, 1);
+    dialogController.openDialog("addProject");
   });
 });

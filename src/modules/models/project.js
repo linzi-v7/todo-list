@@ -1,4 +1,4 @@
-import { ToDo } from "./todo.js";
+import { ToDo } from "./models/todo.js";
 class Project {
   currentTodoID = 0;
 

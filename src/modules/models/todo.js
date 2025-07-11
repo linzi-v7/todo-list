@@ -1,4 +1,4 @@
-import { priorityLevel, toDoStatus } from "./enums.js";
+import { priorityLevel, toDoStatus } from "../util/enums.js";
 
 class ToDo {
   #title;

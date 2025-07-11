@@ -1,7 +1,7 @@
 //module to manage the dialog functionality in the application
 //like creating subwindows for adding, editing, viewing, and deleting todos and projects
 import { ProjectController } from "./projectController.js";
-import { DialogActionType } from "./enums.js";
+import { DialogActionType } from "../util/enums.js";
 
 //DOM dialog elements enum
 const elements = Object.freeze({

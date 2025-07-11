@@ -16,6 +16,8 @@ class ProjectController {
       description
     );
     ProjectController.projectList.push(newProject);
+    ProjectController.listProjects();
+
     return newProject;
   }
 
