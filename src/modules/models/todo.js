@@ -12,16 +12,7 @@ class ToDo {
   notes;
   projectID;
 
-  constructor(
-    id,
-    title,
-    description,
-    dueDate,
-    priority,
-    notes,
-    status,
-    projectID
-  ) {
+  constructor(id, title, description, dueDate, priority, notes, status, projectID) {
     this.id = id;
     this.title = title;
     this.description = description;

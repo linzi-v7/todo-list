@@ -5,9 +5,8 @@ class AppState {
   #currentProjectID = null;
 
   constructor() {
-    if (instance) {
-      throw new Error("Only one instance of AppState is allowed");
-    }
+    if (instance) throw new Error("Only one instance of AppState is allowed");
+
     instance = this;
   }
 
@@ -26,11 +25,20 @@ class AppState {
     return true;
   }
 
-  async save() {
+  //use this to save current state without overwriting the entire state
+  async saveInternalState() {
     const state = {
       projects: this.#projects,
       currentProjectID: this.#currentProjectID,
     };
+    localStorage.setItem("todoAppState", JSON.stringify(state));
+  }
+
+  //use this to save the entire state, overwriting any existing state
+  async saveCustomState(state) {
+    if (typeof state !== "object" || !state) {
+      throw new Error("State must be a valid object");
+    }
     localStorage.setItem("todoAppState", JSON.stringify(state));
   }
 
@@ -56,6 +64,13 @@ class AppState {
     }
     this.#projects = projects;
     this.save();
+  }
+
+  get state() {
+    return {
+      projects: this.#projects,
+      currentProjectID: this.#currentProjectID,
+    };
   }
 }
 
