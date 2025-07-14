@@ -1,7 +1,9 @@
 //module to manage the dialog functionality in the application
 //like creating subwindows for adding, editing, viewing, and deleting todos and projects
-import { ProjectController } from "./projectController.js";
+import { projectController } from "./projectController.js";
+import { todoController } from "./todoController.js";
 import { DialogActionType } from "../util/enums.js";
+import { ToDo } from "../models/todo.js";
 
 //DOM dialog elements enum
 const elements = Object.freeze({
@@ -13,7 +15,7 @@ const elements = Object.freeze({
   cancelBtn: document.querySelector(".todo-modal .cancel-button"),
 });
 
-// templates used to populate the dialog content dynamically
+// templates used for populating the dialog content dynamically
 const templates = {
   createTodoFormTemplate() {
     return `
@@ -157,6 +159,7 @@ const titleMap = Object.freeze({
   [DialogActionType.DELETE_PROJECT]: "Delete Project",
 });
 
+//populate html content based on dialog action type
 const templateMap = Object.freeze({
   [DialogActionType.ADD_TODO]: templates.createTodoFormTemplate(),
   [DialogActionType.EDIT_TODO]: templates.createTodoFormTemplate(),
@@ -170,30 +173,39 @@ const templateMap = Object.freeze({
   [DialogActionType.DELETE_PROJECT]: templates.createDeleteTemplate("project"),
 });
 
+let instance = null;
+
 class DialogController {
+  #elements = elements;
+
   constructor() {
+    if (instance) {
+      throw new Error("Only one instance of DialogController is allowed");
+    }
+    instance = this;
     this.elements = elements;
   }
 
-  openDialog(type, projectID = null, todoID = null) {
-    console.log(`Opening dialog of type: ${type}`);
+  openDialog(dialogType, projectID = null, todoID = null) {
+    console.log(`Opening dialog of type: ${dialogType}`);
+    console.log(`Project ID: ${projectID}, Todo ID: ${todoID}`);
 
     this.#init();
 
-    this.elements.title.textContent = titleMap[type] || "Dialog";
-    this.elements.content.innerHTML = templateMap[type];
-    this.elements.form.dataset.action = type;
+    this.elements.title.textContent = titleMap[dialogType] || "Dialog";
+    this.elements.content.innerHTML = templateMap[dialogType];
+    this.elements.form.dataset.action = dialogType;
 
     let projectObject = null;
     let todoObject = null;
 
     if (projectID) {
-      projectObject = ProjectController.getProjectByID(projectID);
+      projectObject = projectController.getProjectByID(projectID);
       this.elements.form.dataset.projectId = projectID || "";
     }
 
     if (todoID && projectID) {
-      todoObject = projectObject.getTodoByID(todoID);
+      todoObject = todoController.getTodoByID(projectID, todoID);
       this.elements.form.dataset.todoId = todoID || "";
     }
 
@@ -203,11 +215,10 @@ class DialogController {
   }
 
   #init() {
+    this.elements = elements;
     this.elements.closeBtn.addEventListener("click", () => this.#closeDialog());
 
-    this.elements.cancelBtn.addEventListener("click", () =>
-      this.elements.dialog.requestClose()
-    );
+    this.elements.cancelBtn.addEventListener("click", () => this.elements.dialog.requestClose());
 
     this.elements.dialog.addEventListener("cancel", (event) => {
       event.preventDefault();
@@ -231,25 +242,19 @@ class DialogController {
 
   #populateFormData(project, todo) {
     const action = this.elements.form.dataset.action;
-    if (action === "editTodo" || action === "editProject") {
+    if (action === DialogActionType.EDIT_TODO || action === DialogActionType.EDIT_PROJECT) {
       this.#populateEditForm({ project, todo });
-    } else if (action === "viewTodo" || action === "viewProject") {
+    } else if (action === DialogActionType.VIEW_TODO || action === DialogActionType.VIEW_PROJECT) {
       this.#populateViewForm({ project, todo });
     }
   }
 
   #populateEditForm({ project = null, todo = null }) {
-    const fields = this.elements.form.querySelectorAll(
-      "input[name], textarea[name], select[name]"
-    );
+    const fields = this.elements.form.querySelectorAll("input[name], textarea[name], select[name]");
     fields.forEach((field) => {
       const fieldName = field.name;
 
-      field.value = todo
-        ? todo[fieldName] || ""
-        : project
-          ? project[fieldName] || ""
-          : "";
+      field.value = todo ? todo[fieldName] || "" : project ? project[fieldName] || "" : "";
 
       if (field.type === "date" && todo && todo[fieldName]) {
         field.value = todo[fieldName].toISOString().split("T")[0];
@@ -261,11 +266,7 @@ class DialogController {
     const viewFields = this.elements.content.querySelectorAll(".view-field");
     viewFields.forEach((field) => {
       const fieldName = field.dataset.field;
-      field.textContent = todo
-        ? todo[fieldName] || ""
-        : project
-          ? project[fieldName] || ""
-          : "";
+      field.textContent = todo ? todo[fieldName] || "" : project ? project[fieldName] || "" : "";
 
       if (field.dataset.type === "date") {
         field.textContent = todo
@@ -286,24 +287,29 @@ class DialogController {
     let project = null;
     let todo = null;
 
-    if (projectID) project = ProjectController.getProjectByID(projectID);
+    if (projectID) project = projectController.getProjectByID(projectID);
 
-    if (todoID && projectID) todo = project.getTodoByID(todoID);
+    if (todoID && projectID) todo = todoController.getTodoByID(projectID, todoID);
 
     switch (action) {
-      case DialogActionType.ADD_TODO:
-        project.addTodo(
+      case DialogActionType.ADD_TODO: {
+        let newTodo = new ToDo(
+          project.getLatestTodoID() + 1,
           data.title,
           data.description,
           new Date(data.dueDate),
           data.priority,
           data.notes,
-          data.status
+          data.status,
+          project.id
         );
+        todoController.addTodo(projectID, newTodo);
         break;
+      }
 
       case DialogActionType.EDIT_TODO:
-        project.updateTodo(
+        todoController.updateTodo(
+          projectID,
           todoID,
           data.title,
           data.description,
@@ -315,23 +321,19 @@ class DialogController {
         break;
 
       case DialogActionType.DELETE_TODO:
-        project.removeTodo(todoID);
+        todoController.removeTodo(projectID, todoID);
         break;
 
       case DialogActionType.ADD_PROJECT:
-        ProjectController.addProject(data.title, data.description);
+        projectController.addProject(data.title, data.description);
         break;
 
       case DialogActionType.EDIT_PROJECT:
-        ProjectController.updateProject(
-          projectID,
-          data.title,
-          data.description
-        );
+        projectController.updateProject(projectID, data.title, data.description);
         break;
 
       case DialogActionType.DELETE_PROJECT:
-        ProjectController.deleteProject(projectID);
+        projectController.deleteProject(projectID);
         break;
 
       default:
@@ -339,6 +341,15 @@ class DialogController {
         break;
     }
   }
+
+  set elements(newElements) {
+    this.#elements = newElements;
+  }
+
+  get elements() {
+    return this.#elements;
+  }
 }
 
-export { DialogController };
+const dialogController = Object.freeze(new DialogController());
+export { dialogController };
