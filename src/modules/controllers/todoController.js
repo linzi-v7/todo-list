@@ -15,6 +15,7 @@ class TodoController {
     const project = projectController.getProjectByID(projectID);
     if (project) {
       project.todos.push(todo);
+      project.incrementTodoID();
       appState.saveInternalState();
     }
   }
@@ -27,16 +28,7 @@ class TodoController {
     }
   }
 
-  updateTodo(
-    projectID,
-    todoID,
-    title,
-    description,
-    dueDate,
-    priority,
-    notes,
-    status
-  ) {
+  updateTodo(projectID, todoID, title, description, dueDate, priority, notes, status) {
     const project = projectController.getProjectByID(projectID);
 
     if (project) {

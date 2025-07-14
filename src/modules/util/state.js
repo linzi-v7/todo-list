@@ -34,6 +34,12 @@ class AppState {
     localStorage.setItem("todoAppState", JSON.stringify(state));
   }
 
+  async clearState() {
+    localStorage.removeItem("todoAppState");
+    this.#projects = [];
+    this.#currentProjectID = null;
+  }
+
   //use this to save the entire state, overwriting any existing state
   async saveCustomState(state) {
     if (typeof state !== "object" || !state) {
