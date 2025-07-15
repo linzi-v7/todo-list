@@ -6,6 +6,7 @@ import { ToDo } from "./modules/models/todo.js";
 import { DialogActionType, priorityLevel, toDoStatus } from "./modules/util/enums.js";
 import { dialogController } from "./modules/controllers/dialogController.js";
 import { appState } from "./modules/util/state.js";
+import { renderWelcomeScreen } from "./modules/views/welcomeVIew.js";
 
 //test stuff
 // const project = projectController.addProject("Project 1", "Description 1");
@@ -34,14 +35,15 @@ import { appState } from "./modules/util/state.js";
 function initializeApp() {
   const success = appState.initialize();
 
+  appState.clearState(); // Clear state for testing purposes
+
   console.log("App initialized with state:", appState);
   console.log("Projects: ", appState.projects);
   console.log("Current Project ID: ", appState.currentProjectID);
 
   if (!success) {
     // First time use
-    //showWelcomeScreen();
-    console.log("Welcome to the app! This is your first time using it.");
+    renderWelcomeScreen();
     return;
   }
 
