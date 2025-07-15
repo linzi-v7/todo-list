@@ -5,58 +5,43 @@ let instance = null;
 
 class ProjectController {
   constructor() {
-    if (instance)
-      throw new Error("Only one instance of ProjectController is allowed");
+    if (instance) throw new Error("Only one instance of ProjectController is allowed");
 
     instance = this;
-    this.state = appState.state;
   }
 
   addProject(title, description) {
-    this.state.currentProjectID++;
-    const newProject = new Project(
-      this.state.currentProjectID,
-      title,
-      description
-    );
-    this.state.projects.push(newProject);
+    appState.currentProjectID++;
+    const newProject = new Project(appState.currentProjectID, title, description);
 
-    appState.saveCustomState(this.state);
+    //use setter better to avoid direct mutation and trigger validation and automatic saving
+    appState.projects = [...appState.projects, newProject];
     return newProject;
   }
 
   removeProject(id) {
-    this.state.projects = this.state.projects.filter(
-      (project) => project.id !== id
-    );
+    appState.projects = appState.projects.filter((project) => project.id !== id);
 
-    appState.saveCustomState(this.state);
+    appState.saveInternalState();
   }
 
   updateProject(id, title, description) {
-    this.state.projects = this.state.projects.map((project) => {
+    appState.projects = appState.projects.map((project) => {
       if (project.id === id) {
         project.title = title;
         project.description = description;
-        appState.saveCustomState(this.state);
+        appState.saveInternalState();
       }
     });
   }
 
   getProjectByID(id) {
-    return this.state.projects.find((project) => project.id === id);
+    return appState.projects.find((project) => project.id === id);
   }
 
   listProjects() {
-    this.state.projects.forEach((project) => {
-      console.log(
-        "\n ID:" +
-          project.id +
-          "\n Title:" +
-          project.title +
-          "\n Description:" +
-          project.description
-      );
+    appState.projects.forEach((project) => {
+      console.log("\n ID:" + project.id + "\n Title:" + project.title + "\n Description:" + project.description);
     });
   }
 }

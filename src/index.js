@@ -31,20 +31,26 @@ import { appState } from "./modules/util/state.js";
 //   });
 // });
 
-async function initializeApp() {
-  // Load persisted state
-  await appState.initialize();
+function initializeApp() {
+  const success = appState.initialize();
 
-  // Now your app is ready
   console.log("App initialized with state:", appState);
+  console.log("Projects: ", appState.projects);
+  console.log("Current Project ID: ", appState.currentProjectID);
+
+  if (!success) {
+    // First time use
+    //showWelcomeScreen();
+    console.log("Welcome to the app! This is your first time using it.");
+    return;
+  }
+
+  // const project = projectController.addProject("My Project", "Description");
+  // todoController.addTodo(project.id, {
+  //   title: "First Todo",
+  //   dueDate: new Date(),
+  //   priority: "high",
+  // });
 }
 
 document.addEventListener("DOMContentLoaded", initializeApp);
-
-// Example usage:
-const project = projectController.addProject("My Project", "Description");
-todoController.addTodo(project.id, {
-  title: "First Todo",
-  dueDate: new Date(),
-  priority: "high",
-});
