@@ -10,7 +10,7 @@ class AppState {
     instance = this;
   }
 
-  async initialize() {
+  initialize() {
     const savedState = localStorage.getItem("todoAppState");
     if (savedState) {
       const { projects, currentProjectID } = JSON.parse(savedState);
@@ -26,7 +26,7 @@ class AppState {
   }
 
   //use this to save current state without overwriting the entire state
-  async saveInternalState() {
+  saveInternalState() {
     const state = {
       projects: this.#projects,
       currentProjectID: this.#currentProjectID,
@@ -34,14 +34,14 @@ class AppState {
     localStorage.setItem("todoAppState", JSON.stringify(state));
   }
 
-  async clearState() {
+  clearState() {
     localStorage.removeItem("todoAppState");
     this.#projects = [];
     this.#currentProjectID = null;
   }
 
   //use this to save the entire state, overwriting any existing state
-  async saveCustomState(state) {
+  saveCustomState(state) {
     if (typeof state !== "object" || !state) {
       throw new Error("State must be a valid object");
     }
