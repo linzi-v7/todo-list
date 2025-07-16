@@ -1,4 +1,6 @@
 import logo from "../../assets/logo-square.png";
+import { dialogController } from "../controllers/dialogController";
+import { DialogActionType } from "../util/enums";
 
 function renderWelcomeScreen() {
   const mainSiteDiv = document.querySelector(".main-site");
@@ -15,6 +17,11 @@ function renderWelcomeScreen() {
         <p class="welcome-footer">Made with ❤️ by LINZI</p>
       `;
   body.prepend(welcomeScreen);
+
+  const addProjectButton = document.querySelector(".add-project-button");
+  addProjectButton.addEventListener("click", () => {
+    dialogController.openDialog(DialogActionType.ADD_PROJECT);
+  });
 }
 
 export { renderWelcomeScreen };
