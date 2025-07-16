@@ -75,6 +75,35 @@ class ToDo {
   get status() {
     return this.#status;
   }
+
+  toJSON() {
+    return {
+      id: this.id,
+      title: this.title,
+      description: this.description,
+      dueDate: this.dueDate,
+      priority: this.priority,
+      notes: this.notes,
+      status: this.status,
+      projectID: this.projectID,
+      creationDate: this.creationDate,
+    };
+  }
+
+  static fromJSON(json) {
+    const todo = new ToDo(
+      json.id,
+      json.title,
+      json.description,
+      new Date(json.dueDate),
+      json.priority,
+      json.notes,
+      json.status,
+      json.projectID
+    );
+    todo.#creationDate = new Date(json.creationDate);
+    return todo;
+  }
 }
 
 export { ToDo, priorityLevel, toDoStatus };

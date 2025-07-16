@@ -7,11 +7,13 @@ class Project {
   description;
   creationDate;
   todos;
-  constructor(id, title, description) {
+  constructor(id, title, description, currentTodoID = 0) {
+    console.log("Creating new project with ID:", id, "title:", title, "description:", description);
     this.id = id;
     this.title = title;
     this.description = description;
     this.creationDate = new Date();
+    this.#currentTodoID = currentTodoID;
     this.todos = [];
   }
 
@@ -38,6 +40,23 @@ class Project {
     this.#currentTodoID++;
   }
 
+  toJSON() {
+    return {
+      id: this.id,
+      title: this.title,
+      description: this.description,
+      creationDate: this.creationDate,
+      todos: this.todos,
+      _currentTodoID: this.#currentTodoID,
+    };
+  }
+
+  static fromJSON(json) {
+    const project = new Project(json.id, json.title, json.description, json._currentTodoID);
+    project.creationDate = new Date(json.creationDate);
+    project.todos = json.todos || [];
+    return project;
+  }
   // set id(id) {
   //   throw new Error("ID cannot be changed");
   // }

@@ -8,34 +8,9 @@ import { dialogController } from "./modules/controllers/dialogController.js";
 import { appState } from "./modules/util/state.js";
 import { renderWelcomeScreen } from "./modules/views/welcomeVIew.js";
 
-//test stuff
-// const project = projectController.addProject("Project 1", "Description 1");
-// const todo1 = new ToDo(1, "title 1", "description 1", new Date(), priorityLevel.LOW, "notes 1", toDoStatus.TODO, project.id);
-// const todo2 = new ToDo(2, "title 2", "description 2", new Date(), priorityLevel.HIGH, "notes 2", toDoStatus.TODO, project.id);
-// todoController.addTodo(project.id, todo1);
-// todoController.addTodo(project.id, todo2);
-// todoController.listTodosByProjectID(project.id);
-
-// const project2 = projectController.addProject("Project 2", "Description 2");
-// const todo3 = new ToDo(3, "title 3", "description 3", new Date(), priorityLevel.MEDIUM, "notes 3", toDoStatus.TODO, project2.id);
-// todoController.addTodo(project2.id, todo3);
-// todoController.listTodosByProjectID(project2.id);
-
-// projectController.listProjects();
-
-// //add project button exists on homepage and project page
-// const addProjectButtons = document.querySelectorAll(".add-project-button");
-// addProjectButtons.forEach((button) => {
-//   button.addEventListener("click", () => {
-//     console.log("Add Project button clicked");
-//     dialogController.openDialog(DialogActionType.ADD_PROJECT, project.id, todo2.id);
-//   });
-// });
-
 function initializeApp() {
-  const success = appState.initialize();
-
   appState.clearState(); // Clear state for testing purposes
+  const success = appState.initialize();
 
   console.log("App initialized with state:", appState);
   console.log("Projects: ", appState.projects);
@@ -46,13 +21,18 @@ function initializeApp() {
     renderWelcomeScreen();
     return;
   }
-
-  // const project = projectController.addProject("My Project", "Description");
-  // todoController.addTodo(project.id, {
-  //   title: "First Todo",
-  //   dueDate: new Date(),
-  //   priority: "high",
-  // });
+  // const project = projectController.addProject("My First Project", "This is a description of my first project");
+  // const todo = new ToDo(
+  //   1,
+  //   "My First ToDo",
+  //   "This is a description of my first todo",
+  //   new Date(Date.now() + 86400000),
+  //   priorityLevel.MEDIUM,
+  //   "Some notes",
+  //   toDoStatus.TODO,
+  //   project.id
+  // );
+  // todoController.addTodo(project.id, todo);
 }
 
 document.addEventListener("DOMContentLoaded", initializeApp);
