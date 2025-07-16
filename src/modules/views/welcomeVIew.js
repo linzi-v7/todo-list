@@ -1,4 +1,4 @@
-import logo from "../assets/logo-square.png";
+import logo from "../../assets/logo-square.png";
 
 function renderWelcomeScreen() {
   const mainSiteDiv = document.querySelector(".main-site");
@@ -12,7 +12,7 @@ function renderWelcomeScreen() {
         <h1 class="welcome-title">Welcome to Tudoo</h1>
         <p class="welcome-subtitle">Organize your life, one task at a time</p>
         <button class="add-project-button">Add Your First Project!</button>
-        <p class="welcome-footer">Made with ❤️ by Linzi</p>
+        <p class="welcome-footer">Made with ❤️ by LINZI</p>
       `;
   body.prepend(welcomeScreen);
 }
