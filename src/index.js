@@ -1,5 +1,5 @@
 import "./styles.css";
-import { Project } from "./modules/project.js";
+import { Project } from "./modules/models/project.js";
 import { projectController } from "./modules/controllers/projectController.js";
 import { todoController } from "./modules/controllers/todoController.js";
 import { ToDo } from "./modules/models/todo.js";
