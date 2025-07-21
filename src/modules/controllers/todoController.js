@@ -1,3 +1,5 @@
+import { EventType } from "../util/enums";
+import { eventBus } from "../util/eventBus";
 import { appState } from "../util/state";
 import { projectController } from "./projectController";
 
@@ -16,6 +18,7 @@ class TodoController {
     if (project) {
       project.todos.push(todo);
       project.incrementTodoID();
+      eventBus.publish(EventType.TODO_ADD, todo);
       appState.saveInternalState();
     }
   }
@@ -24,6 +27,7 @@ class TodoController {
     const project = projectController.getProjectByID(projectID);
     if (project) {
       project.todos = project.todos.filter((todo) => todo.id !== todoID);
+      eventBus.publish(EventType.TODO_REMOVE, todoID);
       appState.saveInternalState();
     }
   }
@@ -40,6 +44,7 @@ class TodoController {
         todo.priority = priority;
         todo.notes = notes;
         todo.status = status;
+        eventBus.publish(EventType.TODO_UPDATE, todo);
         appState.saveInternalState();
       }
     }
@@ -47,14 +52,15 @@ class TodoController {
 
   getTodoByID(projectID, todoID) {
     const project = projectController.getProjectByID(projectID);
-    return project ? project.todos.find((todo) => todo.id === todoID) : null;
+    return project ? project.todos.find((todo) => todo.id === todoID) : undefined;
   }
 
   getTodosByProjectID(projectID) {
     const project = projectController.getProjectByID(projectID);
-    return project ? project.todos : [];
+    return project ? project.todos : undefined;
   }
 
+  // DEBUG: for console logging todos in a project
   listTodosByProjectID(projectID) {
     const todos = this.getTodosByProjectID(projectID);
     todos.forEach((todo) => {

@@ -33,3 +33,33 @@ export const DialogActionType = Object.freeze({
   VIEW_PROJECT: "viewProject",
   DELETE_PROJECT: "deleteProject",
 });
+
+// Enum for event types
+// add more events as needed
+export const EventType = Object.freeze({
+  // Project events
+  PROJECT_ADD: "project:add",
+  PROJECT_REMOVE: "project:remove",
+  PROJECT_UPDATE: "project:update",
+  PROJECT_LIST: "project:list",
+
+  // Todo events
+  TODO_ADD: "todo:add",
+  TODO_REMOVE: "todo:remove",
+  TODO_UPDATE: "todo:update",
+  TODO_LIST: "todo:list",
+  TODO_VIEW: "todo:view",
+  TODO_PRIORITY_CHANGE: "todo:priorityChange",
+  TODO_STATUS_CHANGE: "todo:statusChange",
+  TODO_FILTER: "todo:filter",
+
+  // Dialog events
+  DIALOG_OPEN: "dialog:open",
+  DIALOG_CLOSE: "dialog:close",
+  DIALOG_ACTION: "dialog:action",
+  DIALOG_CONFIRM: "dialog:confirm",
+  DIALOG_CANCEL: "dialog:cancel",
+  DIALOG_ERROR: "dialog:error",
+  DIALOG_SUCCESS: "dialog:success",
+  DIALOG_INFO: "dialog:info",
+});

@@ -1,4 +1,6 @@
 import { Project } from "../models/project.js";
+import { EventType } from "../util/enums.js";
+import { eventBus } from "../util/eventBus.js";
 import { appState } from "../util/state.js";
 
 let instance = null;
@@ -16,12 +18,15 @@ class ProjectController {
 
     //use setter better to avoid direct mutation and trigger validation and automatic saving
     appState.projects = [...appState.projects, newProject];
+    eventBus.publish(EventType.PROJECT_ADD, newProject);
     return newProject;
   }
 
+  // TODO: handle error if not found
   removeProject(id) {
     appState.projects = appState.projects.filter((project) => project.id !== id);
 
+    eventBus.publish(EventType.PROJECT_REMOVE, id);
     appState.saveInternalState();
   }
 
@@ -31,6 +36,7 @@ class ProjectController {
         project.title = title;
         project.description = description;
         appState.saveInternalState();
+        eventBus.publish(EventType.PROJECT_UPDATE, project);
       }
     });
   }
@@ -39,6 +45,7 @@ class ProjectController {
     return appState.projects.find((project) => project.id === id);
   }
 
+  //DEBUG: for console logging projects
   listProjects() {
     appState.projects.forEach((project) => {
       console.log("\n ID:" + project.id + "\n Title:" + project.title + "\n Description:" + project.description);
