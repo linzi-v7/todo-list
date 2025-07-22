@@ -1,10 +1,12 @@
 import { EventType } from "../util/enums";
 import { eventBus } from "../util/eventBus";
 import { appState } from "../util/state.js";
+import { renderWelcomeScreen, removeWelcomeScreen } from "./welcomeVIew.js";
 
 class ProjectView {
   constructor() {
     eventBus.subscribe(EventType.PROJECT_ADD, this.renderSideBar.bind(this));
+    eventBus.subscribe(EventType.PROJECT_FIRST_TIME_USE, removeWelcomeScreen.bind(this));
     //eventBus.subscribe(EventType.PROJECT_REMOVE, this.removeProject.bind(this));
     //eventBus.subscribe(EventType.PROJECT_UPDATE, this.updateProject.bind(this));
   }

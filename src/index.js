@@ -19,8 +19,8 @@ function initializeApp() {
 
   if (!success) {
     // First time use
-    //renderWelcomeScreen();
-    //return;
+    renderWelcomeScreen();
+    return;
   }
   const addProjectButton = document.querySelector(".add-project-button");
   addProjectButton.addEventListener("click", () => {

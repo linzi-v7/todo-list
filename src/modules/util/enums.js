@@ -42,6 +42,7 @@ export const EventType = Object.freeze({
   PROJECT_REMOVE: "project:remove",
   PROJECT_UPDATE: "project:update",
   PROJECT_LIST: "project:list",
+  PROJECT_FIRST_TIME_USE: "project:firstTimeUse", // to switch from welcome screen to project view
 
   // Todo events
   TODO_ADD: "todo:add",

@@ -19,6 +19,10 @@ class ProjectController {
     //use setter better to avoid direct mutation and trigger validation and automatic saving
     appState.projects = [...appState.projects, newProject];
     eventBus.publish(EventType.PROJECT_ADD, newProject);
+
+    if (appState.projects.length === 1) {
+      eventBus.publish(EventType.PROJECT_FIRST_TIME_USE);
+    }
     return newProject;
   }
 

@@ -10,7 +10,7 @@ class Project {
   constructor(id, title, description, currentTodoID = 0) {
     console.log("Creating new project with ID:", id, "title:", title, "description:", description);
     this.id = id;
-    this.title = title;
+    this.#title = title;
     this.description = description;
     this.creationDate = new Date();
     this.#currentTodoID = currentTodoID;

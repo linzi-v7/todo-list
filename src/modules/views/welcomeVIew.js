@@ -24,4 +24,14 @@ function renderWelcomeScreen() {
   });
 }
 
-export { renderWelcomeScreen };
+function removeWelcomeScreen() {
+  console.log("Removing welcome screen");
+  const welcomeScreen = document.querySelector(".welcome-screen");
+  if (welcomeScreen) {
+    welcomeScreen.remove();
+  }
+  const mainSiteDiv = document.querySelector(".main-site");
+  mainSiteDiv.classList.remove("inactive");
+}
+
+export { renderWelcomeScreen, removeWelcomeScreen };
