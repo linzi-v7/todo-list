@@ -1,3 +1,5 @@
+import { toDoStatus } from "./todo";
+
 class Project {
   #currentTodoID = 0;
 
@@ -30,6 +32,10 @@ class Project {
 
   get numOfTodos() {
     return this.todos.length;
+  }
+
+  getnumOfTodosByFilter(status) {
+    return this.todos.filter((todo) => todo.status === status).length;
   }
 
   getLatestTodoID() {

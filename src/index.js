@@ -6,27 +6,22 @@ import { ToDo } from "./modules/models/todo.js";
 import { DialogActionType, priorityLevel, toDoStatus } from "./modules/util/enums.js";
 import { dialogController } from "./modules/controllers/dialogController.js";
 import { appState } from "./modules/util/state.js";
-import { renderWelcomeScreen } from "./modules/views/welcomeVIew.js";
+import { removeWelcomeScreen, renderMainSite, renderWelcomeScreen } from "./modules/views/welcomeVIew.js";
 import { projectView } from "./modules/views/projectView.js";
 
-function initializeApp() {
-  appState.clearState(); // Clear state for testing purposes
-  const success = appState.initialize();
-
-  console.log("App initialized with state:", appState);
-  console.log("Projects: ", appState.projects);
-  console.log("Current Project ID: ", appState.currentProjectID);
-
-  if (!success) {
-    // First time use
-    renderWelcomeScreen();
-    return;
-  }
+function startMainApp() {
+  console.log("Starting main app...");
   const addProjectButton = document.querySelector(".add-project-button");
   addProjectButton.addEventListener("click", () => {
     console.log("Add Project button clicked");
     dialogController.openDialog(DialogActionType.ADD_PROJECT);
   });
+
+  removeWelcomeScreen();
+  renderMainSite();
+  projectView.renderSideBar();
+  projectView.openProjectView();
+
   // const project = projectController.addProject("My First Project", "This is a description of my first project");
   // const todo = new ToDo(
   //   1,
@@ -39,6 +34,22 @@ function initializeApp() {
   //   project.id
   // );
   // todoController.addTodo(project.id, todo);
+}
+
+function initializeApp() {
+  appState.clearState(); // Clear state for testing purposes
+  const isExistingUser = appState.initialize(); //will re
+
+  console.log("App initialized with state:", appState);
+  console.log("Projects: ", appState.projects);
+  console.log("Current Project ID: ", appState.currentProjectID);
+
+  if (isExistingUser) {
+    startMainApp();
+  } else {
+    // First time use
+    renderWelcomeScreen();
+  }
 }
 
 document.addEventListener("DOMContentLoaded", initializeApp);

@@ -30,8 +30,12 @@ function removeWelcomeScreen() {
   if (welcomeScreen) {
     welcomeScreen.remove();
   }
+}
+
+function renderMainSite() {
+  console.log("Rendering main site");
   const mainSiteDiv = document.querySelector(".main-site");
   mainSiteDiv.classList.remove("inactive");
 }
 
-export { renderWelcomeScreen, removeWelcomeScreen };
+export { renderWelcomeScreen, removeWelcomeScreen, renderMainSite };
