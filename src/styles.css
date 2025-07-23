@@ -1,5 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jaro:opsz@6..72&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
+/* ==================================
+   CSS RESET & ROOT VARIABLES
+   ================================== */
 * {
   margin: 0;
   padding: 0;
@@ -7,32 +10,66 @@
 }
 
 :root {
-  --welcome-screen-color: #dfdfdf;
-  --sidebar-color: #f5f5f5;
-  --silver-hover: #e0e0e0;
-  --add-button-color: #3498db;
-  --add-button-hover: #2980b9;
-  --faded-text-color: #00000051;
-  --shadow: 1px 1px 1px 0px rgb(200, 200, 200);
-  --primary-color: #3498db;
-  --secondary-color: #1e6cab;
-  --accent-color: #4ecdc4;
-  --light-bg: #f8f9fa;
-}
+  /* Core Colors */
+  --color-primary: #3498db;
+  --color-primary-dark: #2980b9;
+  --color-success: #4caf50;
+  --color-error: #f44336;
 
-/* show grid lines */
-.main-site > *,
-.project-info > *,
-.todo-list > *,
-.todo-item > * {
-  /* border: 1px solid red; */
+  /* Neutral Palette */
+  --color-light: #f8f9fa;
+  --color-light-gray: #f5f5f5;
+  --color-medium-gray: #e9ecef;
+  --color-dark-gray: #343a40;
+
+  /* Text Colors */
+  --text-primary: #333;
+  --text-secondary: #6c757d;
+  --text-faded: #adb5bd;
+
+  /* UI Elements */
+  --border-light: 1px solid #dee2e6;
+  --border-radius-sm: 0.25rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 2rem;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 25px rgba(0, 0, 0, 0.1);
+
+  /* Priority Colors */
+  --priority-low: #2ecc71;
+  --priority-medium: #f1c40f;
+  --priority-high: #e67e22;
+  --priority-urgent: #c0392b;
+
+  /* Status Colors */
+  --status-todo: #bbb;
+  --status-in-progress: #b6360496;
+  --status-in-review: #9b59b6;
+  --status-on-hold: #e67d22a7;
+  --status-completed: #4caf4fb0;
 }
 
 body {
-  font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #fdfdfd;
-  color: #333;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  background-color: var(--color-light);
+  color: var(--text-primary);
   line-height: 1.6;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
 }
 
 button {
@@ -41,6 +78,18 @@ button {
   background-color: transparent;
 }
 
+/* ==================================
+   MAIN LAYOUT
+   ================================== */
+.main-site {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  height: 100vh;
+}
+
+/* ==================================
+   WELCOME SCREEN
+   ================================== */
 .welcome-screen {
   display: flex;
   flex-direction: column;
@@ -69,358 +118,392 @@ button {
   color: var(--faded-text-color);
 }
 
-.add-project-button,
-.add-todo-button {
-  background-color: var(--add-button-color);
-  color: white;
-  border: none;
-  padding: 1rem 2rem;
-  font-size: 1.25rem;
-  border-radius: 3rem;
-  cursor: pointer;
-  font-weight: bold;
-  align-items: center;
-  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
-  transition: all 0.2s ease;
-}
-
-.add-project-button:hover,
-.add-todo-button:hover {
-  background-color: var(--add-button-hover);
-  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
-}
-
-.main-site {
-  display: grid;
-  grid-template-columns: 0.8fr 4fr;
-  height: 100vh;
-}
-
+/* ==================================
+   SIDEBAR
+   ================================== */
 .project-sidebar {
-  background-color: var(--sidebar-color);
+  background-color: var(--color-light-gray);
   display: flex;
   flex-direction: column;
-  padding: 0.5rem 1rem;
-  border-right: 1px solid #e0e0e0;
+  padding: 1.5rem;
+  border-right: var(--border-light);
 }
 
 .project-sidebar .site-logo {
-  cursor: pointer;
-  margin: 0.5rem 0 1.5rem 0;
-  width: 70%;
-  max-width: 180px;
-}
-
-.project-sidebar .add-project-button {
-  width: 70%;
-  border-radius: 1rem;
-  padding: 1rem 0rem;
-  margin-bottom: 2rem;
-  background-color: var(--primary-color);
-  color: white;
-  font-weight: bold;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-
-.project-sidebar .add-project-button:hover {
-  background-color: var(--secondary-color);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 60%;
+  max-width: 150px;
+  margin-bottom: 1.5rem;
 }
 
 .project-sidebar > p {
-  color: var(--faded-text-color);
+  color: var(--text-secondary);
   font-weight: 600;
-  margin-bottom: 0.4rem;
+  margin: 2rem 0 0.5rem;
   text-transform: uppercase;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   letter-spacing: 0.5px;
-  padding-left: 0.5rem;
 }
 
 .project-list {
   list-style: none;
-  max-height: 60vh;
-  overflow: auto;
+  overflow-y: auto;
 }
 
 .project-list li {
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1rem;
   margin-bottom: 0.25rem;
-  border-radius: 4px;
+  border-radius: var(--border-radius-md);
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   gap: 10px;
+  font-weight: 500;
 }
 
 .project-list li::before {
   content: "•";
-  color: var(--primary-color);
+  color: var(--color-primary);
   font-size: 1.5rem;
+  line-height: 1;
 }
 
 .project-list li:hover {
-  background-color: var(--silver-hover);
+  background-color: var(--color-medium-gray);
 }
 
 .project-list li.active {
-  background-color: var(--primary-color);
+  background-color: var(--color-primary);
   color: white;
+  font-weight: 600;
 }
 
+/* ==================================
+   PROJECT AREA
+   ================================== */
 .project-info {
-  margin: 1rem;
-  display: grid;
-  grid-template-rows: auto auto 1fr;
-  gap: 1.5rem;
+  padding: 2rem 3rem;
+  overflow-y: auto;
 }
 
 .project-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #eaeaea;
+  padding-bottom: 1.5rem;
+  border-bottom: var(--border-light);
+  margin-bottom: 2rem;
 }
 
-.header-content {
-  max-width: 80%;
-}
-
-.project-header .project-title {
-  font-size: 2.8rem;
+.project-title {
+  font-size: 2.5rem;
   font-weight: 800;
-  color: var(--primary-color);
-  margin-bottom: 0.5rem;
-}
-
-.description-container {
-  margin-top: 0.5rem;
+  color: var(--color-dark-gray);
+  margin-bottom: 0.25rem;
 }
 
 .description-toggle {
-  background-color: var(--light-bg);
-  padding: 0.5rem 1rem;
-  border-radius: 1.5rem;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
+  color: var(--text-secondary);
+  border-radius: var(--border-radius-lg);
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.7rem;
+  transition: all 0.2s ease;
 }
-
 .description-toggle:hover {
-  background-color: var(--silver-hover);
+  color: var(--text-primary);
+  background-color: var(--color-medium-gray);
 }
 
 .project-description {
   padding: 1rem;
-  margin-top: 0.8rem;
-  background-color: var(--light-bg);
-  border-radius: 0.8rem;
+  margin-top: 1rem;
+  background-color: var(--color-light-gray);
+  border-radius: var(--border-radius-md);
   line-height: 1.7;
+  color: var(--text-secondary);
+  border: var(--border-light);
 }
 
+/* ==================================
+   STATISTICS CARDS
+   ================================== */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background-color: white;
+  border-radius: var(--border-radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  border: var(--border-light);
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.stat-card[data-stat="total"] .stat-value {
+  color: var(--color-primary-dark);
+}
+.stat-card[data-stat="in-progress"] .stat-value {
+  color: var(--status-in-progress);
+}
+.stat-card[data-stat="completed"] .stat-value {
+  color: var(--status-completed);
+}
+.stat-card[data-stat="on-hold"] .stat-value {
+  color: var(--status-on-hold);
+}
+
+/* ==================================
+   CONTROLS & FILTERS
+   ================================== */
 .project-controls {
+  padding: 1.5rem;
   margin-bottom: 1rem;
+  background-color: white;
+  border-radius: var(--border-radius-md);
+  border: var(--border-light);
+}
+
+.controls-header {
+  margin-bottom: 1rem;
+}
+
+.controls-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-dark-gray);
 }
 
 .filter-buttons {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 .filter-btn {
-  font-size: 1rem;
-  font-weight: bold;
-  padding: 1rem 2.5rem;
-  border-radius: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--border-radius-md);
   transition: all 0.2s ease;
+  background-color: var(--color-light-gray);
+  border: 1px solid transparent;
+  flex: 1;
 }
 
-.filter-btn:hover,
+.filter-btn:hover {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  color: white;
+}
 .filter-btn.active {
-  background-color: var(--silver-hover);
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
 }
 
-.add-todo-button {
-  margin-bottom: 1rem;
-}
-
+/* ==================================
+   TODO LIST & ITEMS
+   ================================== */
 .todo-list {
   list-style: none;
-  padding: 0;
-  margin: 0;
-  overflow-y: auto;
+  display: grid;
+  gap: 1rem;
 }
 
 .todo-item {
   display: grid;
-  overflow: hidden;
-  grid-template-columns: 0.025fr 2fr 0.2fr;
-  gap: 0.5rem;
-  border-radius: 1rem;
+  grid-template-columns: 10px 1fr auto;
+  gap: 1.25rem;
+  border-radius: var(--border-radius-md);
   transition: all 0.2s ease;
-  padding: 0.5rem;
-  margin-bottom: 0.75rem;
-  border: 1px solid #e0e0e0;
+  padding: 1.25rem;
+  background-color: white;
+  border: var(--border-light);
+  align-items: center;
 }
 
 .todo-item:hover {
-  transform: translateY(-2px); /* Slight lift */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  background-color: #f9f9f9; /* Light background change */
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
 }
 
-.todo-main {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  padding: 0.5rem;
-  width: 100%;
-  height: 100%;
+.priority-indicator-side {
+  width: 130%;
+  height: 140%;
+  border-radius: var(--border-radius-lg);
 }
 
-.priority-indicator {
-  grid-column: 1/2;
-  width: 100%;
-  height: 100%;
-  border-radius: 50% 0% 0% 50%;
-  opacity: 0.7;
+.priority-indicator-small {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
 }
 
-.priority-indicator.low-priority {
-  background-color: #2ecc71;
+.priority-low {
+  background-color: var(--priority-low);
+}
+.priority-medium {
+  background-color: var(--priority-medium);
+}
+.priority-high {
+  background-color: var(--priority-high);
+}
+.priority-urgent {
+  background-color: var(--priority-urgent);
 }
 
-.priority-indicator.medium-priority {
-  background-color: #ebd517;
-}
-
-.priority-indicator.high-priority {
-  background-color: #e78c3c;
-}
-
-.priority-indicator.urgent-priority {
-  background-color: #b63a34;
-}
-
-.priority-indicator.critical-priority {
-  background-color: #b42ff6;
+.todo-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .todo-header {
   display: flex;
   align-items: center;
   gap: 1rem;
-  font-size: 1rem;
+  flex-wrap: wrap;
 }
 
 .todo-title {
   font-weight: 600;
-  color: #333;
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size: 1.1rem;
 }
 
-.todo-status {
-  background-color: #f0f0f0;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.5rem;
+.todo-status,
+.todo-priority {
+  background-color: var(--color-light-gray);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius-lg);
   font-size: 0.8rem;
-  color: #555;
-  min-width: 60px;
-  text-align: center;
-}
-
-.todo-duedate {
-  font-size: 0.85rem;
-  color: #666;
-  min-width: 80px;
-}
-
-.todo-controls {
-  display: flex;
+  color: var(--text-secondary);
+  font-weight: 500;
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.todo-controls button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.1rem;
-  padding: 0.25rem;
+.status-indicator {
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+}
+.status-todo {
+  background-color: var(--status-todo);
+}
+.status-in-progress {
+  background-color: var(--status-in-progress);
+}
+.status-in-review {
+  background-color: var(--status-in-review);
+}
+.status-on-hold {
+  background-color: var(--status-on-hold);
+}
+.status-completed {
+  background-color: var(--color-success);
+}
+
+.todo-duedate {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.todo-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.todo-actions button {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
 }
 
-.todo-controls button:hover {
-  background-color: #f0f0f0;
-  transform: scale(1.1);
-}
-
-.todo-checkbox-container {
-  grid-column: 3/4;
-  padding: 0 0.7rem;
+.todo-actions button:hover {
+  background-color: var(--color-light-gray);
+  color: var(--text-primary);
 }
 
 .todo-checkbox {
-  appearance: none; /* Removes default styles */
-  -webkit-appearance: none;
-  width: 2.5rem;
-  height: 2.5rem;
-  border: 2px solid #ccc; /* Visible border */
-  border-radius: 50%; /* Makes it round */
-  outline: none;
+  appearance: none;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 2px solid var(--color-medium-gray);
+  border-radius: 50%;
   cursor: pointer;
-  transition:
-    border-color 0.7s ease,
-    background-color 0.7s ease;
-
-  margin-top: 0.3rem;
+  transition: all 0.2s ease;
 }
 
 .todo-checkbox:checked {
-  background-color: #4caf50; /* Green fill when checked */
-  border-color: #4caf50;
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+  position: relative;
 }
 
 .todo-checkbox:checked::after {
-  content: "\2713";
-  font-size: 2.5rem;
+  content: "✓";
   color: white;
-  display: block;
-  text-align: center;
-  line-height: 2.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-/* dialog modal styling */
+.todo-item[data-status="completed"] {
+  opacity: 0.7;
+}
 
+.todo-item[data-status="completed"] .todo-title {
+  text-decoration: line-through;
+  color: var(--text-secondary);
+}
+
+/* ==================================
+   MODAL DIALOG
+   ================================== */
 .todo-modal {
   border: none;
-  border-radius: 1rem;
+  border-radius: var(--border-radius-md);
   padding: 0;
-  width: min(90%, 500px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  width: min(95%, 500px);
+  box-shadow: var(--shadow-lg);
   place-self: center;
 }
 
 .todo-modal::backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(3px);
 }
 
 .todo-modal-content {
-  padding: 1.5rem;
+  padding: 2.5rem;
   position: relative;
 }
 
@@ -430,21 +513,28 @@ button {
   right: 1rem;
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   cursor: pointer;
-  color: #666;
+  color: var(--text-faded);
+  line-height: 1;
+  border-radius: var(--border-radius-lg);
+  padding: 0.2rem 0.5rem;
+}
+
+.todo-modal-close:hover {
+  color: var(--text-primary);
+  background-color: var(--color-medium-gray);
+}
+
+.todo-modal-title {
+  margin-bottom: 2rem;
+  font-size: 1.75rem;
 }
 
 .todo-modal-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-}
-
-.form-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .form-group {
@@ -453,17 +543,21 @@ button {
   gap: 0.5rem;
 }
 
-.form-group label {
-  font-weight: 500;
-  color: #444;
+.form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea {
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 0.5rem;
+.form-group label {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.form-control {
+  padding: 0.8rem 1rem;
+  border: var(--border-light);
+  border-radius: var(--border-radius-sm);
   font-size: 1rem;
 }
 
@@ -476,7 +570,16 @@ button {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 1rem;
 }
 
 .form-actions button {
@@ -506,41 +609,68 @@ button {
   background: #3e8e41;
 }
 
-/* Project-specific styles */
-.project-form .form-group input {
-  font-size: 1.1rem;
-  padding: 0.8rem;
-}
-
-.project-info .info-group {
-  margin-bottom: 1rem;
-  padding: 0.8rem;
-  background: #f8f8f8;
-  border-radius: 0.5rem;
-}
-
-.project-info .info-label {
+/* ==================================
+   BUTTONS
+   ================================== */
+.btn {
+  padding: 0.8rem 1.8rem;
+  border-radius: var(--border-radius-lg);
   font-weight: 600;
-  color: #333;
-  display: block;
-  margin-bottom: 0.3rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1rem;
 }
 
-.project-info .info-value {
-  color: #555;
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+}
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+  box-shadow: var(--shadow-md);
 }
 
-/* Delete confirmation specific styles */
-.delete-confirmation .confirm-button {
-  background: #f44336;
+.btn-cancel {
+  background-color: var(--color-light-gray);
+  border: var(--border-light);
+  color: var(--text-secondary);
+}
+.btn-cancel:hover {
+  background-color: var(--color-medium-gray);
+  border-color: #ced4da;
 }
 
-.delete-confirmation .confirm-button:hover {
-  background: #d32f2f;
+.btn-confirm {
+  background-color: var(--color-success);
+  color: white;
+}
+.btn-confirm:hover {
+  background-color: #3e8e41;
 }
 
-.shadow {
-  box-shadow: var(--shadow);
+/* ==================================
+   UTILITY STYLES
+   ================================== */
+.float-up,
+.float-down {
+  transition: all 0.2s ease;
+}
+
+.float-up:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.float-down:hover {
+  transform: translateY(3px);
+  box-shadow: var(--shadow-md);
+}
+
+.crsr-ptr {
+  cursor: pointer;
 }
 
 .inactive {

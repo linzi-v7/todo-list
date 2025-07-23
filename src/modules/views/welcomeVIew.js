@@ -13,7 +13,7 @@ function renderWelcomeScreen() {
         <img src="${logo}" alt="tudoo site logo" class="site-logo" width="20%" />
         <h1 class="welcome-title">Welcome to Tudoo</h1>
         <p class="welcome-subtitle">Organize your life, one task at a time</p>
-        <button class="add-project-button">Add Your First Project!</button>
+        <button class="add-project-button btn btn-primary float-up">Add Your First Project!</button>
         <p class="welcome-footer">Made with ❤️ by LINZI</p>
       `;
   body.prepend(welcomeScreen);
