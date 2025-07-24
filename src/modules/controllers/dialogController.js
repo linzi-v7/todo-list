@@ -288,6 +288,7 @@ class DialogController {
     let todo = null;
 
     if (projectID) project = projectController.getProjectByID(projectID);
+    console.log("Project:", project);
 
     if (todoID && projectID) todo = todoController.getTodoByID(projectID, todoID);
 

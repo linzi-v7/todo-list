@@ -178,6 +178,10 @@ button {
   font-weight: 600;
 }
 
+.project-list li.active::before {
+  color: white;
+}
+
 /* ==================================
    PROJECT AREA
    ================================== */

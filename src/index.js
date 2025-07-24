@@ -6,7 +6,7 @@ import { ToDo } from "./modules/models/todo.js";
 import { DialogActionType, priorityLevel, toDoStatus } from "./modules/util/enums.js";
 import { dialogController } from "./modules/controllers/dialogController.js";
 import { appState } from "./modules/util/state.js";
-import { removeWelcomeScreen, renderMainSite, renderWelcomeScreen } from "./modules/views/welcomeVIew.js";
+import { welcomeView } from "./modules/views/welcomeVIew.js";
 import { projectView } from "./modules/views/projectView.js";
 
 function startMainApp() {
@@ -17,8 +17,8 @@ function startMainApp() {
     dialogController.openDialog(DialogActionType.ADD_PROJECT);
   });
 
-  removeWelcomeScreen();
-  renderMainSite();
+  welcomeView.removeWelcomeScreen();
+  welcomeView.renderMainSite();
   projectView.renderSideBar();
   projectView.openProjectView();
 
@@ -48,7 +48,7 @@ function initializeApp() {
     startMainApp();
   } else {
     // First time use
-    renderWelcomeScreen();
+    welcomeView.renderWelcomeScreen();
   }
 }
 

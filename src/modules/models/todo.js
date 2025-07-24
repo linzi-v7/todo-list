@@ -76,6 +76,14 @@ class ToDo {
     return this.#status;
   }
 
+  toggleCompletion() {
+    if (this.status === toDoStatus.COMPLETED) {
+      this.status = toDoStatus.TODO;
+    } else {
+      this.status = toDoStatus.COMPLETED;
+    }
+  }
+
   toJSON() {
     return {
       id: this.id,

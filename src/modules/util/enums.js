@@ -34,7 +34,7 @@ export const DialogActionType = Object.freeze({
   DELETE_PROJECT: "deleteProject",
 });
 
-// Enum for event types
+// Enum for event types for publishing and subscribing to events
 // add more events as needed
 export const EventType = Object.freeze({
   // Project events
